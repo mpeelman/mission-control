@@ -80,3 +80,26 @@ export async function getGitHubProjectSnapshot(): Promise<GitHubProjectItemLite[
     },
   ];
 }
+
+export async function getMissionControlLiveSnapshot() {
+  const issues = await getGitHubIssues().catch(() => []);
+  const board = await getGitHubProjectSnapshot();
+
+  const highPriority = issues.filter((issue) =>
+    issue.labels.some((label) => label.name === "priority-high"),
+  );
+  const inProgress = board.filter((item) => item.status === "In Progress");
+  const done = 6;
+
+  return {
+    issues,
+    board,
+    metrics: {
+      activeProjects: 4,
+      inProgressCount: inProgress.length,
+      blockedCount: highPriority.length,
+      recentWinsCount: done,
+    },
+    highPriority,
+  };
+}

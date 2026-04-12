@@ -3,19 +3,26 @@ import { AppShell } from "@/components/layout/app-shell";
 import { SectionCard } from "@/components/dashboard/section-card";
 import { StatusPill } from "@/components/ui/status-pill";
 import { projects } from "@/lib/data";
+import { getMissionControlLiveSnapshot } from "@/lib/github";
 
-export default function ProjectsPage() {
+export default async function ProjectsPage() {
+  const snapshot = await getMissionControlLiveSnapshot();
+
   return (
     <AppShell
       currentPath="/projects"
       eyebrow="Projects"
       title="Project Grid"
-      notice="4 tracked initiatives"
+      notice={`${snapshot.metrics.inProgressCount} active board items`}
     >
       <SectionCard
         title="Active Project Portfolio"
         description="A clearer view of the work Mission Control is organizing right now"
       >
+        <div className="mb-5 rounded-2xl border border-cyan-400/15 bg-cyan-400/10 px-4 py-3 text-sm text-cyan-100">
+          Live GitHub signal: {snapshot.board.length} tracked board items currently surfaced.
+        </div>
+
         <div className="grid gap-4 xl:grid-cols-2">
           {projects.map((project) => (
             <div

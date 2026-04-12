@@ -2,6 +2,7 @@ import Link from "next/link";
 import { AppShell } from "@/components/layout/app-shell";
 import { SectionCard } from "@/components/dashboard/section-card";
 import { taskBoard } from "@/lib/data";
+import { getMissionControlLiveSnapshot } from "@/lib/github";
 
 function PriorityChip({ priority }: { priority: "High" | "Medium" | "Low" }) {
   const styles = {
@@ -17,18 +18,24 @@ function PriorityChip({ priority }: { priority: "High" | "Medium" | "Low" }) {
   );
 }
 
-export default function TasksPage() {
+export default async function TasksPage() {
+  const snapshot = await getMissionControlLiveSnapshot();
+
   return (
     <AppShell
       currentPath="/tasks"
       eyebrow="Tasks"
       title="Work Board"
-      notice="2 active build lanes"
+      notice={`${snapshot.metrics.inProgressCount} board items in progress`}
     >
       <SectionCard
         title="Current Task Board"
         description="A first operational view of active work across the Mission Control effort"
       >
+        <div className="mb-5 rounded-2xl border border-cyan-400/15 bg-cyan-400/10 px-4 py-3 text-sm text-cyan-100">
+          Live GitHub signal: {snapshot.issues.length} open issues currently visible.
+        </div>
+
         <div className="grid gap-4 xl:grid-cols-4">
           {Object.entries(taskBoard).map(([column, items]) => (
             <div

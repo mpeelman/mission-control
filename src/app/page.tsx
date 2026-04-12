@@ -8,18 +8,43 @@ import {
   projectBoardUrl,
   projects,
   sprintItems,
-  stats,
   team,
   wins,
 } from "@/lib/data";
+import { getMissionControlLiveSnapshot } from "@/lib/github";
 
-export default function Home() {
+export default async function Home() {
+  const snapshot = await getMissionControlLiveSnapshot();
+
+  const stats = [
+    {
+      label: "Active Projects",
+      value: String(snapshot.metrics.activeProjects),
+      detail: "Mission Control operating lanes",
+    },
+    {
+      label: "In Progress",
+      value: String(snapshot.metrics.inProgressCount),
+      detail: "Live board activity",
+    },
+    {
+      label: "Blocked",
+      value: String(snapshot.metrics.blockedCount),
+      detail: "High-priority items",
+    },
+    {
+      label: "Recent Wins",
+      value: String(snapshot.metrics.recentWinsCount),
+      detail: "Delivered milestone surfaces",
+    },
+  ];
+
   return (
     <AppShell
       currentPath="/"
       eyebrow="Overview"
       title="Mission Control"
-      notice="2 blockers need review"
+      notice={`${snapshot.metrics.blockedCount} blockers need review`}
     >
       <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
         {stats.map((stat) => (
@@ -84,17 +109,14 @@ export default function Home() {
           description="High-signal items that need attention"
         >
           <div className="space-y-3">
-            {[
-              "Convert issue seed doc into real GitHub issues",
-              "Define exact sprint board structure in GitHub Projects",
-              "Decide how future agent roles will map to repo ownership",
-            ].map((item) => (
-              <div
-                key={item}
-                className="rounded-2xl border border-amber-400/15 bg-amber-400/10 p-4 text-sm text-zinc-200"
+            {snapshot.highPriority.map((issue) => (
+              <Link
+                key={issue.number}
+                href={issue.url}
+                className="block rounded-2xl border border-amber-400/15 bg-amber-400/10 p-4 text-sm text-zinc-200 transition hover:border-amber-300/30"
               >
-                {item}
-              </div>
+                #{issue.number} {issue.title}
+              </Link>
             ))}
           </div>
         </SectionCard>
