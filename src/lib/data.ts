@@ -31,12 +31,21 @@ export type SprintItem = {
 export type TeamRole = {
   role: string;
   focus: string;
+  lane: string;
+  linkedProject: string;
 };
 
 export type QuickLink = {
   label: string;
   href: string;
   caption: string;
+};
+
+export type TaskCard = {
+  title: string;
+  owner: string;
+  project: string;
+  priority: "High" | "Medium" | "Low";
 };
 
 export const navigation: NavItem[] = [
@@ -132,26 +141,38 @@ export const team: TeamRole[] = [
   {
     role: "Chief of Staff",
     focus: "Planning, sequencing, decision support, and status visibility",
+    lane: "Operations",
+    linkedProject: "Mission Control",
   },
   {
     role: "Product Lead",
     focus: "Scope, requirements, and V1 success criteria",
+    lane: "Product",
+    linkedProject: "Mission Control",
   },
   {
     role: "Frontend Engineering",
     focus: "Dashboard shell, cards, layout, and responsive behavior",
+    lane: "Implementation",
+    linkedProject: "Mission Control",
   },
   {
     role: "Design and UX",
     focus: "Dark operational UI language and information hierarchy",
+    lane: "Design",
+    linkedProject: "Mission Control",
   },
   {
     role: "Backend Engineering",
     focus: "Future data integration, APIs, and GitHub/Discord sync paths",
+    lane: "Systems",
+    linkedProject: "GitHub Workflow",
   },
   {
     role: "QA and Review",
     focus: "Acceptance criteria, visual review, and release confidence",
+    lane: "Quality",
+    linkedProject: "Mission Control",
   },
 ];
 
@@ -184,3 +205,56 @@ export const links: QuickLink[] = [
     caption: "Admin decisions, setup, and Chief of Staff coordination",
   },
 ];
+
+export const taskBoard: Record<string, TaskCard[]> = {
+  Backlog: [
+    {
+      title: "Create Team screen shell",
+      owner: "Frontend",
+      project: "Mission Control",
+      priority: "Medium",
+    },
+    {
+      title: "Write GitHub Projects setup doc",
+      owner: "Chief of Staff",
+      project: "GitHub Workflow",
+      priority: "Medium",
+    },
+  ],
+  "In Progress": [
+    {
+      title: "Build Tasks screen",
+      owner: "Frontend",
+      project: "Mission Control",
+      priority: "High",
+    },
+    {
+      title: "Refine project visualization links",
+      owner: "Chief of Staff",
+      project: "Mission Control",
+      priority: "High",
+    },
+  ],
+  Review: [
+    {
+      title: "Dashboard shell QA pass",
+      owner: "QA",
+      project: "Mission Control",
+      priority: "Medium",
+    },
+  ],
+  Done: [
+    {
+      title: "Bootstrap app and repo",
+      owner: "Frontend",
+      project: "Mission Control",
+      priority: "High",
+    },
+    {
+      title: "Add Projects screen",
+      owner: "Frontend",
+      project: "Mission Control",
+      priority: "High",
+    },
+  ],
+};
