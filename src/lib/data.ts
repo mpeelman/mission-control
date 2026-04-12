@@ -26,6 +26,7 @@ export type SprintItem = {
   title: string;
   state: string;
   owner: string;
+  githubUrl: string;
 };
 
 export type TeamRole = {
@@ -46,6 +47,7 @@ export type TaskCard = {
   owner: string;
   project: string;
   priority: "High" | "Medium" | "Low";
+  githubUrl: string;
 };
 
 export const navigation: NavItem[] = [
@@ -61,32 +63,34 @@ export const navigation: NavItem[] = [
 ];
 
 export const stats: Stat[] = [
-  { label: "Active Projects", value: "4", detail: "+1 this week" },
-  { label: "In Progress", value: "12", detail: "3 high priority" },
+  { label: "Active Projects", value: "4", detail: "13 seeded issues live" },
+  { label: "In Progress", value: "12", detail: "Tracked across board lanes" },
   { label: "Blocked", value: "2", detail: "Needs decisions" },
   { label: "Recent Wins", value: "7", detail: "Last 7 days" },
 ];
+
+export const projectBoardUrl = "https://github.com/users/mpeelman/projects/1";
 
 export const projects: Project[] = [
   {
     name: "Mission Control",
     status: "Active",
-    progress: 32,
+    progress: 38,
     owner: "Chief of Staff + Frontend",
-    summary: "Building the first dashboard shell and operational UI system.",
-    githubLabel: "View repo",
-    githubUrl: "https://github.com/mpeelman/mission-control",
+    summary: "Building the dashboard shell, linked views, and work-visualization surfaces.",
+    githubLabel: "Open project board",
+    githubUrl: projectBoardUrl,
     discordLabel: "Open status channel",
     discordUrl: "https://discord.com/channels/1492906786590556321/1492958441139077252",
   },
   {
     name: "GitHub Workflow",
-    status: "Planning",
-    progress: 65,
+    status: "Active",
+    progress: 72,
     owner: "Chief of Staff",
-    summary: "Converting issue seeds and process docs into a real delivery lane.",
-    githubLabel: "Open workflow doc",
-    githubUrl: "https://github.com/mpeelman/mission-control",
+    summary: "Issue seeding and GitHub Project setup are now active parts of the system.",
+    githubLabel: "Open seeded issues",
+    githubUrl: "https://github.com/mpeelman/mission-control/issues",
     discordLabel: "Open control room",
     discordUrl: "https://discord.com/channels/1492906786590556321/1492958441428484146",
   },
@@ -104,11 +108,11 @@ export const projects: Project[] = [
   {
     name: "Agent Team OS",
     status: "Planning",
-    progress: 24,
+    progress: 30,
     owner: "Chief of Staff",
-    summary: "Defining the operating system that coordinates projects, roles, and memory.",
-    githubLabel: "Open docs repo lane",
-    githubUrl: "https://github.com/mpeelman/mission-control",
+    summary: "Defining the operating system that coordinates projects, roles, memory, and reporting.",
+    githubLabel: "Open docs and issue lane",
+    githubUrl: "https://github.com/mpeelman/mission-control/issues",
     discordLabel: "Open agent lab",
     discordUrl: "https://discord.com/channels/1492906786590556321/1492958440861990974",
   },
@@ -119,21 +123,25 @@ export const sprintItems: SprintItem[] = [
     title: "Refine dashboard shell",
     state: "In Progress",
     owner: "Frontend",
+    githubUrl: "https://github.com/mpeelman/mission-control/issues/11",
   },
   {
     title: "Seed GitHub issues from planning docs",
-    state: "Ready",
+    state: "Done",
     owner: "Chief of Staff",
+    githubUrl: "https://github.com/mpeelman/mission-control/issues/1",
   },
   {
     title: "Define project board structure",
-    state: "Blocked",
+    state: "In Progress",
     owner: "Product",
+    githubUrl: projectBoardUrl,
   },
   {
     title: "Add dedicated Projects screen",
-    state: "In Progress",
+    state: "Done",
     owner: "Frontend",
+    githubUrl: "https://github.com/mpeelman/mission-control/issues/5",
   },
 ];
 
@@ -180,19 +188,19 @@ export const wins = [
   "Discord operating structure created",
   "Mission Control brief and implementation plan drafted",
   "Issue seed and UI spec completed",
-  "GitHub access configured for build work",
+  "GitHub Project and seeded issue set are now live",
 ];
 
 export const links: QuickLink[] = [
   {
-    label: "GitHub Repo",
-    href: "https://github.com/mpeelman/mission-control",
-    caption: "Source code and future pull requests",
+    label: "GitHub Project Board",
+    href: projectBoardUrl,
+    caption: "Live Mission Control Sprint Board",
   },
   {
-    label: "Projects Channel",
-    href: "https://discord.com/channels/1492906786590556321/1492958505244688584",
-    caption: "Discussion threads for active initiatives",
+    label: "GitHub Issues",
+    href: "https://github.com/mpeelman/mission-control/issues",
+    caption: "Seeded issue backlog for Mission Control",
   },
   {
     label: "Agent Status",
@@ -213,12 +221,14 @@ export const taskBoard: Record<string, TaskCard[]> = {
       owner: "Frontend",
       project: "Mission Control",
       priority: "Medium",
+      githubUrl: "https://github.com/mpeelman/mission-control/issues/6",
     },
     {
       title: "Write GitHub Projects setup doc",
       owner: "Chief of Staff",
       project: "GitHub Workflow",
       priority: "Medium",
+      githubUrl: projectBoardUrl,
     },
   ],
   "In Progress": [
@@ -227,12 +237,14 @@ export const taskBoard: Record<string, TaskCard[]> = {
       owner: "Frontend",
       project: "Mission Control",
       priority: "High",
+      githubUrl: "https://github.com/mpeelman/mission-control/issues/7",
     },
     {
       title: "Refine project visualization links",
       owner: "Chief of Staff",
       project: "Mission Control",
       priority: "High",
+      githubUrl: "https://github.com/mpeelman/mission-control/issues/10",
     },
   ],
   Review: [
@@ -241,6 +253,7 @@ export const taskBoard: Record<string, TaskCard[]> = {
       owner: "QA",
       project: "Mission Control",
       priority: "Medium",
+      githubUrl: "https://github.com/mpeelman/mission-control/issues/13",
     },
   ],
   Done: [
@@ -249,12 +262,14 @@ export const taskBoard: Record<string, TaskCard[]> = {
       owner: "Frontend",
       project: "Mission Control",
       priority: "High",
+      githubUrl: "https://github.com/mpeelman/mission-control/issues/1",
     },
     {
       title: "Add Projects screen",
       owner: "Frontend",
       project: "Mission Control",
       priority: "High",
+      githubUrl: "https://github.com/mpeelman/mission-control/issues/5",
     },
   ],
 };

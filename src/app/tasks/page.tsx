@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { AppShell } from "@/components/layout/app-shell";
 import { SectionCard } from "@/components/dashboard/section-card";
 import { taskBoard } from "@/lib/data";
@@ -53,6 +54,12 @@ export default function TasksPage() {
                     </div>
                     <p className="mt-3 text-xs text-zinc-500">Owner: {item.owner}</p>
                     <p className="mt-1 text-xs text-zinc-500">Project: {item.project}</p>
+                    <Link
+                      href={item.githubUrl}
+                      className="mt-3 inline-block text-xs text-cyan-300 transition hover:text-cyan-200"
+                    >
+                      Open GitHub item
+                    </Link>
                   </div>
                 ))}
               </div>

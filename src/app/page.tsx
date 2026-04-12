@@ -3,7 +3,15 @@ import { AppShell } from "@/components/layout/app-shell";
 import { SectionCard } from "@/components/dashboard/section-card";
 import { StatCard } from "@/components/dashboard/stat-card";
 import { StatusPill } from "@/components/ui/status-pill";
-import { links, projects, sprintItems, stats, team, wins } from "@/lib/data";
+import {
+  links,
+  projectBoardUrl,
+  projects,
+  sprintItems,
+  stats,
+  team,
+  wins,
+} from "@/lib/data";
 
 export default function Home() {
   return (
@@ -104,7 +112,9 @@ export default function Home() {
                   <p className="text-sm font-medium text-white">{item.title}</p>
                   <p className="mt-1 text-xs text-zinc-500">Owner: {item.owner}</p>
                 </div>
-                <StatusPill state={item.state} />
+                <Link href={item.githubUrl}>
+                  <StatusPill state={item.state} />
+                </Link>
               </div>
             ))}
           </div>
@@ -146,6 +156,9 @@ export default function Home() {
           title="Quick Links"
           description="Jump points to the surrounding operating system"
         >
+          <div className="mb-4 rounded-2xl border border-cyan-400/15 bg-cyan-400/10 px-4 py-3 text-sm text-cyan-100">
+            Live board: <Link href={projectBoardUrl} className="underline underline-offset-4">Mission Control Sprint Board</Link>
+          </div>
           <div className="grid gap-3 sm:grid-cols-2">
             {links.map((link) => (
               <Link
