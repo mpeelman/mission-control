@@ -54,12 +54,12 @@ export const navigation: NavItem[] = [
   { name: "Overview", href: "/", badge: null },
   { name: "Tasks", href: "/tasks", badge: "12" },
   { name: "Projects", href: "/projects", badge: "4" },
+  { name: "Portfolio", href: "/portfolio", badge: "New" },
   { name: "Team", href: "/team", badge: "6" },
   { name: "Calendar", href: "/calendar", badge: null },
   { name: "Docs", href: "/docs", badge: null },
   { name: "Memory", href: "/memory", badge: null },
   { name: "Alerts", href: "/alerts", badge: "2" },
-  { name: "Settings", href: "/settings", badge: null },
 ];
 
 export const stats: Stat[] = [

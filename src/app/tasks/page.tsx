@@ -3,6 +3,7 @@ import { AppShell } from "@/components/layout/app-shell";
 import { SectionCard } from "@/components/dashboard/section-card";
 import { taskBoard } from "@/lib/data";
 import { getMissionControlLiveSnapshot } from "@/lib/github";
+import { portfolioWorkstreams } from "@/lib/portfolio";
 
 function PriorityChip({ priority }: { priority: "High" | "Medium" | "Low" }) {
   const styles = {
@@ -74,6 +75,47 @@ export default async function TasksPage() {
           ))}
         </div>
       </SectionCard>
+
+      <section className="mt-6 grid gap-6 xl:grid-cols-[0.9fr_1.1fr]">
+        <SectionCard
+          title="Now vs Next"
+          description="What should be worked now versus staged for the next layer"
+        >
+          <div className="space-y-3">
+            {portfolioWorkstreams.map((workstream) => (
+              <div
+                key={workstream.id}
+                className="rounded-2xl border border-white/8 bg-white/[0.03] p-4"
+              >
+                <div className="flex items-center justify-between gap-3">
+                  <p className="text-sm font-medium text-white">{workstream.name}</p>
+                  <span className="rounded-full border border-cyan-400/20 bg-cyan-400/10 px-2 py-1 text-[11px] text-cyan-200">
+                    {workstream.horizon}
+                  </span>
+                </div>
+                <p className="mt-2 text-sm leading-6 text-zinc-400">{workstream.outcome}</p>
+              </div>
+            ))}
+          </div>
+        </SectionCard>
+
+        <SectionCard
+          title="Execution Guidance"
+          description="The current rule for choosing what to build next"
+        >
+          <div className="space-y-3 text-sm leading-6 text-zinc-300">
+            <div className="rounded-2xl border border-cyan-400/15 bg-cyan-400/10 px-4 py-3">
+              Prioritize anything that improves the dashboard core, live data accuracy, or memory/knowledge continuity before moving deeper into orchestration.
+            </div>
+            <div className="rounded-2xl border border-white/8 bg-white/[0.03] px-4 py-3">
+              Use planning work to unblock implementation, but prefer product-visible surfaces whenever a decision can be made concrete in the app.
+            </div>
+            <div className="rounded-2xl border border-white/8 bg-white/[0.03] px-4 py-3">
+              Keep GitHub issues as the source of tracked work, and use Mission Control views to make the operating picture easier to understand at a glance.
+            </div>
+          </div>
+        </SectionCard>
+      </section>
     </AppShell>
   );
 }

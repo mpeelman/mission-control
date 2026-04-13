@@ -4,6 +4,7 @@ import { SectionCard } from "@/components/dashboard/section-card";
 import { StatusPill } from "@/components/ui/status-pill";
 import { projects } from "@/lib/data";
 import { getMissionControlLiveSnapshot } from "@/lib/github";
+import { portfolioWorkstreams } from "@/lib/portfolio";
 
 export default async function ProjectsPage() {
   const snapshot = await getMissionControlLiveSnapshot();
@@ -75,6 +76,26 @@ export default async function ProjectsPage() {
           ))}
         </div>
       </SectionCard>
+
+      <section className="mt-6 grid gap-4 xl:grid-cols-2">
+        {portfolioWorkstreams.map((workstream) => (
+          <Link
+            key={workstream.id}
+            href={workstream.issueUrl}
+            className="rounded-3xl border border-white/8 bg-white/[0.03] p-5 transition hover:border-cyan-400/30"
+          >
+            <div className="flex items-center justify-between gap-3">
+              <h2 className="text-lg font-semibold text-white">{workstream.name}</h2>
+              <StatusPill state={workstream.status} />
+            </div>
+            <p className="mt-3 text-sm leading-6 text-zinc-400">{workstream.summary}</p>
+            <div className="mt-4 flex items-center justify-between gap-3 text-xs text-zinc-500">
+              <span>{workstream.owner}</span>
+              <span>{workstream.horizon}</span>
+            </div>
+          </Link>
+        ))}
+      </section>
     </AppShell>
   );
 }

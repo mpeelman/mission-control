@@ -12,6 +12,7 @@ import {
   wins,
 } from "@/lib/data";
 import { getMissionControlLiveSnapshot } from "@/lib/github";
+import { portfolioWorkstreams, roadmapMilestones } from "@/lib/portfolio";
 
 export default async function Home() {
   const snapshot = await getMissionControlLiveSnapshot();
@@ -155,6 +156,49 @@ export default async function Home() {
                 <p className="text-sm font-medium text-cyan-200">{member.role}</p>
                 <p className="mt-3 text-sm leading-6 text-zinc-400">{member.focus}</p>
               </div>
+            ))}
+          </div>
+        </SectionCard>
+      </section>
+
+      <section className="mt-6 grid gap-6 xl:grid-cols-[1fr_1fr]">
+        <SectionCard
+          title="Portfolio Roadmap"
+          description="The next layers Mission Control is being shaped to support"
+        >
+          <div className="space-y-3">
+            {roadmapMilestones.map((milestone) => (
+              <div
+                key={milestone.name}
+                className="rounded-2xl border border-white/8 bg-white/[0.03] p-4"
+              >
+                <div className="flex items-center justify-between gap-3">
+                  <p className="text-sm font-medium text-white">{milestone.name}</p>
+                  <StatusPill state={milestone.status} />
+                </div>
+                <p className="mt-3 text-sm leading-6 text-zinc-400">{milestone.focus}</p>
+              </div>
+            ))}
+          </div>
+        </SectionCard>
+
+        <SectionCard
+          title="Portfolio Workstreams"
+          description="The broader operating model this dashboard is growing into"
+        >
+          <div className="space-y-3">
+            {portfolioWorkstreams.slice(0, 4).map((workstream) => (
+              <Link
+                key={workstream.id}
+                href={workstream.issueUrl}
+                className="block rounded-2xl border border-white/8 bg-white/[0.03] p-4 transition hover:border-cyan-400/30"
+              >
+                <div className="flex items-center justify-between gap-3">
+                  <p className="text-sm font-medium text-white">{workstream.name}</p>
+                  <StatusPill state={workstream.status} />
+                </div>
+                <p className="mt-2 text-sm leading-6 text-zinc-400">{workstream.summary}</p>
+              </Link>
             ))}
           </div>
         </SectionCard>
