@@ -27,12 +27,13 @@ export default async function DocsPage() {
         <div className="grid gap-4 xl:grid-cols-2">
           {docs.map((doc) => (
             <Link
-              key={doc.title}
+              key={doc.path}
               href={doc.href}
               className="rounded-3xl border border-white/8 bg-white/[0.03] p-5 transition hover:border-cyan-400/30 hover:text-white"
             >
               <h2 className="text-lg font-semibold text-white">{doc.title}</h2>
               <p className="mt-3 text-sm leading-6 text-zinc-400">{doc.description}</p>
+              <p className="mt-4 text-xs uppercase tracking-[0.16em] text-zinc-500">{doc.path}</p>
             </Link>
           ))}
         </div>

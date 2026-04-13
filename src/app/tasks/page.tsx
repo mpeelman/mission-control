@@ -1,8 +1,7 @@
 import Link from "next/link";
 import { AppShell } from "@/components/layout/app-shell";
 import { SectionCard } from "@/components/dashboard/section-card";
-import { taskBoard } from "@/lib/data";
-import { getMissionControlLiveSnapshot } from "@/lib/github";
+import { getGitHubTaskBoard, getMissionControlLiveSnapshot } from "@/lib/github";
 import { portfolioWorkstreams } from "@/lib/portfolio";
 
 function PriorityChip({ priority }: { priority: "High" | "Medium" | "Low" }) {
@@ -21,6 +20,7 @@ function PriorityChip({ priority }: { priority: "High" | "Medium" | "Low" }) {
 
 export default async function TasksPage() {
   const snapshot = await getMissionControlLiveSnapshot();
+  const liveTaskBoard = await getGitHubTaskBoard();
 
   return (
     <AppShell
@@ -38,7 +38,7 @@ export default async function TasksPage() {
         </div>
 
         <div className="grid gap-4 xl:grid-cols-4">
-          {Object.entries(taskBoard).map(([column, items]) => (
+          {Object.entries(liveTaskBoard).map(([column, items]) => (
             <div
               key={column}
               className="rounded-3xl border border-white/8 bg-white/[0.03] p-4"
@@ -53,17 +53,26 @@ export default async function TasksPage() {
               <div className="space-y-3">
                 {items.map((item) => (
                   <div
-                    key={item.title}
+                    key={item.number}
                     className="rounded-2xl border border-white/8 bg-black/20 p-4"
                   >
                     <div className="flex items-start justify-between gap-3">
-                      <p className="text-sm font-medium text-zinc-100">{item.title}</p>
-                      <PriorityChip priority={item.priority} />
+                      <p className="text-sm font-medium text-zinc-100">#{item.number} {item.title}</p>
+                      <PriorityChip
+                        priority={
+                          item.labels.some((label) => label.name === "priority-high")
+                            ? "High"
+                            : item.labels.some((label) => label.name === "priority-medium")
+                              ? "Medium"
+                              : "Low"
+                        }
+                      />
                     </div>
-                    <p className="mt-3 text-xs text-zinc-500">Owner: {item.owner}</p>
-                    <p className="mt-1 text-xs text-zinc-500">Project: {item.project}</p>
+                    <p className="mt-3 text-xs text-zinc-500">
+                      Labels: {item.labels.map((label) => label.name).join(" • ") || "none"}
+                    </p>
                     <Link
-                      href={item.githubUrl}
+                      href={item.url}
                       className="mt-3 inline-block text-xs text-cyan-300 transition hover:text-cyan-200"
                     >
                       Open GitHub item

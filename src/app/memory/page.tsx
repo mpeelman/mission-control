@@ -1,6 +1,6 @@
 import { AppShell } from "@/components/layout/app-shell";
 import { SectionCard } from "@/components/dashboard/section-card";
-import { getJournalHighlights } from "@/lib/workspace";
+import { getJournalHighlights, getMemoryInsights } from "@/lib/workspace";
 
 const memoryPrinciples = [
   "Capture what happened, not every message.",
@@ -10,11 +10,19 @@ const memoryPrinciples = [
 ];
 
 export default async function MemoryPage() {
-  const journalMoments = await getJournalHighlights().catch(() => [
-    {
-      title: "Journal data unavailable",
-      summary: "Memory ingestion fallback is active, but the view remains operational.",
-    },
+  const [journalMoments, memoryInsights] = await Promise.all([
+    getJournalHighlights().catch(() => [
+      {
+        title: "Journal data unavailable",
+        summary: "Memory ingestion fallback is active, but the view remains operational.",
+      },
+    ]),
+    getMemoryInsights().catch(() => [
+      {
+        title: "Durable memory unavailable",
+        summary: "Long-term memory could not be read, but the view remains operational.",
+      },
+    ]),
   ]);
 
   return (
@@ -47,18 +55,23 @@ export default async function MemoryPage() {
         </SectionCard>
 
         <SectionCard
-          title="Memory Rules"
-          description="How this system should preserve context for future projects"
+          title="Durable Memory"
+          description="Long-term operating context promoted from journals into curated memory"
         >
           <div className="space-y-3">
-            {memoryPrinciples.map((rule) => (
+            {memoryInsights.map((rule) => (
               <div
-                key={rule}
+                key={rule.title}
                 className="rounded-2xl border border-cyan-400/15 bg-cyan-400/10 px-4 py-3 text-sm text-zinc-100"
               >
-                {rule}
+                <p className="font-medium text-white">{rule.title}</p>
+                <p className="mt-2 leading-6 text-cyan-50/90">{rule.summary}</p>
               </div>
             ))}
+
+            <div className="rounded-2xl border border-white/8 bg-white/[0.03] px-4 py-3 text-sm leading-6 text-zinc-300">
+              Memory principles: {memoryPrinciples.join(" ")}
+            </div>
           </div>
         </SectionCard>
       </div>
