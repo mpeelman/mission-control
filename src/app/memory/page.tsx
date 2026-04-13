@@ -1,23 +1,6 @@
 import { AppShell } from "@/components/layout/app-shell";
 import { SectionCard } from "@/components/dashboard/section-card";
-
-const journalMoments = [
-  {
-    title: "2026-04-12 kickoff",
-    summary:
-      "Established the Discord structure, team operating system, GitHub workflow, Mission Control brief, implementation plan, issue seed, and UI specification.",
-  },
-  {
-    title: "Chief of Staff role defined",
-    summary:
-      "The assistant was formalized as Chief of Staff, responsible for sequencing, coordination, summaries, and operational continuity.",
-  },
-  {
-    title: "GitHub work tracking activated",
-    summary:
-      "Mission Control now has a real repository, GitHub Project board, and seeded issue backlog tied into the dashboard UI.",
-  },
-];
+import { getJournalHighlights } from "@/lib/workspace";
 
 const memoryPrinciples = [
   "Capture what happened, not every message.",
@@ -26,7 +9,14 @@ const memoryPrinciples = [
   "Use journals to preserve decisions, blockers, and operating improvements.",
 ];
 
-export default function MemoryPage() {
+export default async function MemoryPage() {
+  const journalMoments = await getJournalHighlights().catch(() => [
+    {
+      title: "Journal data unavailable",
+      summary: "Memory ingestion fallback is active, but the view remains operational.",
+    },
+  ]);
+
   return (
     <AppShell
       currentPath="/memory"
@@ -39,6 +29,10 @@ export default function MemoryPage() {
           title="Recent Journal Highlights"
           description="High-value moments preserved from the early Mission Control build"
         >
+          <div className="mb-5 rounded-2xl border border-cyan-400/15 bg-cyan-400/10 px-4 py-3 text-sm text-cyan-100">
+            This view is now reading from the workspace journal layer instead of only static hardcoded entries.
+          </div>
+
           <div className="space-y-4">
             {journalMoments.map((entry) => (
               <div

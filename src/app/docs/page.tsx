@@ -1,47 +1,29 @@
 import Link from "next/link";
 import { AppShell } from "@/components/layout/app-shell";
 import { SectionCard } from "@/components/dashboard/section-card";
+import { getRepoDocCount, getWorkspaceDocs } from "@/lib/workspace";
 
-const docs = [
-  {
-    title: "Project Brief",
-    description: "Product vision, goals, V1 scope, and success criteria for Mission Control.",
-    href: "https://github.com/mpeelman/mission-control",
-  },
-  {
-    title: "Implementation Plan",
-    description: "Phases, technical direction, and delivery sequencing for the dashboard.",
-    href: "https://github.com/mpeelman/mission-control",
-  },
-  {
-    title: "Issue Seed",
-    description: "Initial issue structure used to seed the real GitHub backlog.",
-    href: "https://github.com/mpeelman/mission-control/issues",
-  },
-  {
-    title: "GitHub Projects Plan",
-    description: "How the newer GitHub Projects board is structured for Mission Control.",
-    href: "https://github.com/mpeelman/mission-control/blob/main/docs/github-projects-plan.md",
-  },
-  {
-    title: "Sprint 1",
-    description: "Current sprint goal, backlog, and definition of success.",
-    href: "https://github.com/mpeelman/mission-control/blob/main/docs/sprint-1.md",
-  },
-];
+export default async function DocsPage() {
+  const [docs, repoDocCount] = await Promise.all([
+    getWorkspaceDocs(),
+    getRepoDocCount().catch(() => 0),
+  ]);
 
-export default function DocsPage() {
   return (
     <AppShell
       currentPath="/docs"
       eyebrow="Docs"
       title="Documentation Library"
-      notice="Core planning docs are available"
+      notice={`${repoDocCount} repo docs currently tracked`}
     >
       <SectionCard
         title="Operational Documentation"
         description="The documents that define how Mission Control is being planned and built"
       >
+        <div className="mb-5 rounded-2xl border border-cyan-400/15 bg-cyan-400/10 px-4 py-3 text-sm text-cyan-100">
+          This view is now reading from the workspace-backed documentation layer rather than only hardcoded display copy.
+        </div>
+
         <div className="grid gap-4 xl:grid-cols-2">
           {docs.map((doc) => (
             <Link
