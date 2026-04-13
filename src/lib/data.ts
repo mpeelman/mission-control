@@ -204,6 +204,16 @@ export const links: QuickLink[] = [
     caption: "Seeded issue backlog for Mission Control",
   },
   {
+    label: "Docs View",
+    href: "/docs",
+    caption: "Open the in-app documentation surface",
+  },
+  {
+    label: "Memory View",
+    href: "/memory",
+    caption: "Open the in-app journal and memory surface",
+  },
+  {
     label: "Agent Status",
     href: "https://discord.com/channels/1492906786590556321/1492958441139077252",
     caption: "Progress updates and journal summaries",

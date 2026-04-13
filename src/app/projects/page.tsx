@@ -24,7 +24,7 @@ export default async function ProjectsPage() {
           Live GitHub signal: {snapshot.board.length} tracked board items currently surfaced.
         </div>
 
-        <div className="grid gap-4 xl:grid-cols-2">
+        <div className="grid gap-4 md:grid-cols-2 2xl:grid-cols-2">
           {projects.map((project) => (
             <div
               key={project.name}
@@ -56,7 +56,7 @@ export default async function ProjectsPage() {
                 </div>
               </div>
 
-              <div className="mt-5 grid gap-3 sm:grid-cols-2">
+              <div className="mt-5 grid gap-3 md:grid-cols-2">
                 <Link
                   href={project.githubUrl}
                   className="rounded-2xl border border-white/8 bg-black/20 px-4 py-3 text-sm text-zinc-300 transition hover:border-cyan-400/30 hover:text-white"

@@ -263,14 +263,17 @@ export default async function Home() {
           <div className="mb-4 rounded-2xl border border-cyan-400/15 bg-cyan-400/10 px-4 py-3 text-sm text-cyan-100">
             Live board: <Link href={projectBoardUrl} className="underline underline-offset-4">Mission Control Sprint Board</Link>
           </div>
-          <div className="grid gap-3 sm:grid-cols-2">
+          <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
             {links.map((link) => (
               <Link
                 key={link.label}
                 href={link.href}
                 className="rounded-2xl border border-white/8 bg-white/[0.03] px-4 py-3 transition hover:border-cyan-400/30 hover:text-white"
               >
-                <p className="text-sm font-medium text-zinc-200">{link.label}</p>
+                <div className="flex items-center justify-between gap-3">
+                  <p className="text-sm font-medium text-zinc-200">{link.label}</p>
+                  <span className="text-xs text-cyan-300">Open</span>
+                </div>
                 <p className="mt-1 text-xs leading-5 text-zinc-500">{link.caption}</p>
               </Link>
             ))}

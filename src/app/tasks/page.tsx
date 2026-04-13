@@ -37,7 +37,7 @@ export default async function TasksPage() {
           Live GitHub signal: {snapshot.issues.length} open issues currently visible.
         </div>
 
-        <div className="grid gap-4 xl:grid-cols-4">
+        <div className="grid gap-4 md:grid-cols-2 2xl:grid-cols-4">
           {Object.entries(liveTaskBoard).map(([column, items]) => (
             <div
               key={column}
@@ -114,7 +114,7 @@ export default async function TasksPage() {
         >
           <div className="space-y-3 text-sm leading-6 text-zinc-300">
             <div className="rounded-2xl border border-cyan-400/15 bg-cyan-400/10 px-4 py-3">
-              Prioritize anything that improves the dashboard core, live data accuracy, or memory/knowledge continuity before moving deeper into orchestration.
+              Prioritize anything that improves the dashboard core, live data accuracy, linked work surfaces, or memory continuity before moving deeper into orchestration.
             </div>
             <div className="rounded-2xl border border-white/8 bg-white/[0.03] px-4 py-3">
               Use planning work to unblock implementation, but prefer product-visible surfaces whenever a decision can be made concrete in the app.
