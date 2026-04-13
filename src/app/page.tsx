@@ -12,10 +12,14 @@ import {
   wins,
 } from "@/lib/data";
 import { getMissionControlLiveSnapshot } from "@/lib/github";
+import { getChiefOfStaffSnapshot } from "@/lib/operating-system";
 import { portfolioWorkstreams, roadmapMilestones } from "@/lib/portfolio";
 
 export default async function Home() {
-  const snapshot = await getMissionControlLiveSnapshot();
+  const [snapshot, chiefOfStaff] = await Promise.all([
+    getMissionControlLiveSnapshot(),
+    getChiefOfStaffSnapshot(),
+  ]);
 
   const stats = [
     {
@@ -157,6 +161,40 @@ export default async function Home() {
                 <p className="mt-3 text-sm leading-6 text-zinc-400">{member.focus}</p>
               </div>
             ))}
+          </div>
+        </SectionCard>
+      </section>
+
+      <section className="mt-6 grid gap-6 xl:grid-cols-[1fr_1fr]">
+        <SectionCard
+          title="Chief of Staff Brief"
+          description="What leadership attention should focus on right now"
+        >
+          <div className="space-y-3">
+            {chiefOfStaff.recommendations.map((recommendation) => (
+              <div
+                key={recommendation}
+                className="rounded-2xl border border-cyan-400/15 bg-cyan-400/10 px-4 py-3 text-sm text-cyan-100"
+              >
+                {recommendation}
+              </div>
+            ))}
+          </div>
+        </SectionCard>
+
+        <SectionCard
+          title="Knowledge Signals"
+          description="Current continuity surfaces available to the team"
+        >
+          <div className="grid gap-3 sm:grid-cols-2">
+            <div className="rounded-2xl border border-white/8 bg-white/[0.03] px-4 py-4">
+              <p className="text-xs uppercase tracking-[0.16em] text-zinc-500">Docs tracked</p>
+              <p className="mt-2 text-2xl font-semibold text-white">{chiefOfStaff.metrics.docsTracked}</p>
+            </div>
+            <div className="rounded-2xl border border-white/8 bg-white/[0.03] px-4 py-4">
+              <p className="text-xs uppercase tracking-[0.16em] text-zinc-500">Memory signals</p>
+              <p className="mt-2 text-2xl font-semibold text-white">{chiefOfStaff.metrics.memorySignals}</p>
+            </div>
           </div>
         </SectionCard>
       </section>

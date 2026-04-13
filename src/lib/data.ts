@@ -52,6 +52,7 @@ export type TaskCard = {
 
 export const navigation: NavItem[] = [
   { name: "Overview", href: "/", badge: null },
+  { name: "Chief of Staff", href: "/console", badge: "New" },
   { name: "Tasks", href: "/tasks", badge: "12" },
   { name: "Projects", href: "/projects", badge: "4" },
   { name: "Portfolio", href: "/portfolio", badge: "New" },
